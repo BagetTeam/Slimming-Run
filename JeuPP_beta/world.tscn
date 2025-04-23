@@ -1,0 +1,681 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Animation/Run.tres" type="Animation" id=1]
+[ext_resource path="res://tiles.tres" type="TileSet" id=2]
+[ext_resource path="res://Animation/RunBack.tres" type="Animation" id=3]
+[ext_resource path="res://Animation/Jump.tres" type="Animation" id=4]
+[ext_resource path="res://Animation/Idle.tres" type="Animation" id=5]
+[ext_resource path="res://Textures/full animation.png" type="Texture" id=6]
+[ext_resource path="res://Actors/Player.gd" type="Script" id=7]
+[ext_resource path="res://Textures/amogussus.png" type="Texture" id=8]
+[ext_resource path="res://Actors/Ennemi.gd" type="Script" id=10]
+[ext_resource path="res://PlatHorizontal.tscn" type="PackedScene" id=11]
+[ext_resource path="res://PlatVertical.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Textures/sky.png" type="Texture" id=13]
+[ext_resource path="res://Actors/EnnemiGreen.gd" type="Script" id=14]
+[ext_resource path="res://Textures/amogussus3.png" type="Texture" id=15]
+[ext_resource path="res://Textures/KeyboardControls.png" type="Texture" id=16]
+[ext_resource path="res://Textures/Arrow.png" type="Texture" id=17]
+[ext_resource path="res://Actors/EnnemiPurple.gd" type="Script" id=18]
+[ext_resource path="res://Textures/amogussus2.png" type="Texture" id=19]
+[ext_resource path="res://Textures/portal.png" type="Texture" id=20]
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[node name="world" type="Node2D"]
+
+[node name="Player" type="KinematicBody2D" parent="." groups=["player"]]
+position = Vector2( -283, -4 )
+collision_layer = 2
+collision_mask = 13
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Player"]
+texture = ExtResource( 6 )
+hframes = 6
+vframes = 8
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+zoom = Vector2( 2.5, 2.5 )
+smoothing_enabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Player"]
+root_node = NodePath("../..")
+anims/Idle = ExtResource( 5 )
+anims/Jump = ExtResource( 4 )
+anims/RESET = SubResource( 2 )
+anims/Run = ExtResource( 1 )
+anims/RunBack = ExtResource( 3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player"]
+position = Vector2( -21.0536, -3 )
+scale = Vector2( 0.909598, 0.9375 )
+polygon = PoolVector2Array( 5.55582, -30.9333, 48, -24, 72, 0, 67.1215, 45.8667, 16, 56, -40, 48, -29.6245, 3.2 )
+
+[node name="PlayerArea" type="Area2D" parent="Player"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Player/PlayerArea"]
+polygon = PoolVector2Array( -54, -2, -19, -37, 27, -30, 51, -3, 46, 45, -8, 57, -65, 45 )
+
+[node name="Ennemi" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 1152, -68 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi2" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 2232, -768 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi2"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi2"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi2"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi2"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi3" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 8384, -744 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi3"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi3"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi3"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi3"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi4" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 8752, -1080 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi4"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi4"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi4"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi4"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi5" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 9288, -1400 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi5"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi5"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi5"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi5"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi6" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 13604, 59 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi6"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi6"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi6"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi6"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi8" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 16935, -1090 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi8"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi8"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi8"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi8"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi9" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 14884, 986 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi9"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi9"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi9"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi9"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi11" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 15065, 960 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi11"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi11"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi11"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi11"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi12" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 15604, -1096 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi12"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi12"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi12"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi12"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="Ennemi13" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 15977, 58 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Ennemi13"]
+texture = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ennemi13"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="Ennemi13"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="Ennemi13"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="EnnG" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 5256, -648 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnG"]
+texture = ExtResource( 15 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnG"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="EnnG"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="EnnG"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="EnnG2" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 7682, -2536 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnG2"]
+texture = ExtResource( 15 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnG2"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="EnnG2"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="EnnG2"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="EnnG4" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 15521, 1070 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnG4"]
+texture = ExtResource( 15 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnG4"]
+position = Vector2( -1072, 144 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="DetectorLeft" type="RayCast2D" parent="EnnG4"]
+position = Vector2( -64.0001, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="DetectorRight" type="RayCast2D" parent="EnnG4"]
+position = Vector2( 63.9999, 16 )
+scale = Vector2( 2.56667, 1.4 )
+enabled = true
+collide_with_areas = true
+
+[node name="EnnP" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 11507, -512 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnP"]
+position = Vector2( -1, 0 )
+texture = ExtResource( 19 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnP"]
+position = Vector2( -1073, 143 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="EnnP2" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 14408, 1070 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnP2"]
+position = Vector2( -1, 0 )
+texture = ExtResource( 19 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnP2"]
+position = Vector2( -1073, 143 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="EnnP3" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 14677, 1058 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnP3"]
+position = Vector2( -1, 0 )
+texture = ExtResource( 19 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnP3"]
+position = Vector2( -1073, 143 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="EnnP5" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 15870, 1040 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnP5"]
+position = Vector2( -1, 0 )
+texture = ExtResource( 19 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnP5"]
+position = Vector2( -1073, 143 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="EnnP6" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 15349, 948 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnP6"]
+position = Vector2( -1, 0 )
+texture = ExtResource( 19 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnP6"]
+position = Vector2( -1073, 143 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="EnnP7" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 16931, -222 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnP7"]
+position = Vector2( -1, 0 )
+texture = ExtResource( 19 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnP7"]
+position = Vector2( -1073, 143 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="EnnP8" type="KinematicBody2D" parent="." groups=["ennemies"]]
+light_mask = 2
+position = Vector2( 16936, -1525 )
+collision_layer = 4
+collision_mask = 7
+script = ExtResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="EnnP8"]
+position = Vector2( -1, 0 )
+texture = ExtResource( 19 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="EnnP8"]
+position = Vector2( -1073, 143 )
+build_mode = 1
+polygon = PoolVector2Array( 1096, -96, 1048, -96, 1016, -128, 1032, -176, 1072, -192, 1112, -176, 1128, -120 )
+
+[node name="Background" type="Node2D" parent="."]
+show_behind_parent = true
+
+[node name="Sky" type="Sprite" parent="Background"]
+position = Vector2( 9108, 255 )
+scale = Vector2( 11.192, 5.78245 )
+texture = ExtResource( 13 )
+
+[node name="Controls" type="Sprite" parent="Background"]
+position = Vector2( -86.5, -245.25 )
+scale = Vector2( 2.75743, 2.12406 )
+texture = ExtResource( 16 )
+
+[node name="Arrow" type="Sprite" parent="Background"]
+position = Vector2( 9952, -1968 )
+rotation = -0.785397
+scale = Vector2( 0.327372, 0.318462 )
+texture = ExtResource( 17 )
+
+[node name="Portal" type="Sprite" parent="Background"]
+position = Vector2( 18491, 363 )
+scale = Vector2( 2.2, 2.33182 )
+texture = ExtResource( 20 )
+
+[node name="TileMap" type="TileMap" parent="."]
+show_behind_parent = true
+light_mask = 8
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 144, 144 )
+show_collision = true
+format = 1
+tile_data = PoolIntArray( -1114060, 1, 0, -1114059, 3, 0, -982924, 6, 0, -917456, 1, 0, -917455, 2, 0, -917454, 2, 0, -917453, 2, 0, -917452, 2, 0, -917451, 2, 0, -917450, 2, 0, -917449, 2, 0, -917448, 2, 0, -917447, 2, 0, -917446, 2, 0, -917445, 2, 0, -917444, 3, 0, -917388, 12, 0, -851922, 6, 0, -851852, 12, 0, -786386, 12, 0, -786372, 7, 0, -786371, 16, 0, -786370, 16, 0, -786369, 16, 0, -786368, 16, 0, -786367, 16, 0, -786366, 9, 0, -786316, 12, 0, -720850, 1610612742, 0, -720837, 7, 0, -720836, 11, 0, -720835, 14, 0, -720834, 14, 0, -720833, 14, 0, -720832, 14, 0, -720831, 14, 0, -720830, 15, 0, -720801, 7, 0, -720800, 2, 0, -720799, 2, 0, -720798, 2, 0, -720797, 2, 0, -720796, 2, 0, -720795, 2, 0, -720794, 2, 0, -720793, 2, 0, -720792, 2, 0, -720791, 2, 0, -720790, 2, 0, -720789, 2, 0, -720788, 2, 0, -720787, 2, 0, -720786, 2, 0, -720785, 2, 0, -720784, 2, 0, -720783, 3, 0, -720782, -1610612722, 0, -720781, -1610612722, 0, -720780, 12, 0, -655302, 7, 0, -655301, 11, 0, -655300, 14, 0, -655299, 14, 0, -655298, 14, 0, -655297, 14, 0, -655296, 14, 0, -655295, 14, 0, -655294, 15, 0, -655265, 12, 0, -655264, -1610612722, 0, -655263, -1610612722, 0, -655262, -1610612722, 0, -655261, -1610612722, 0, -655260, -1610612722, 0, -655259, -1610612722, 0, -655258, -1610612722, 0, -655257, -1610612722, 0, -655256, -1610612722, 0, -655255, -1610612722, 0, -655254, -1610612722, 0, -655253, -1610612722, 0, -655252, -1610612722, 0, -655251, -1610612722, 0, -655250, -1610612722, 0, -655249, -1610612722, 0, -655248, -1610612722, 0, -655247, -1610612722, 0, -655246, -1610612722, 0, -655245, -1610612722, 0, -655244, 13, 0, -655243, 3, 0, -589788, 8, 0, -589787, 8, 0, -589786, 9, 0, -589767, 7, 0, -589766, 11, 0, -589765, 14, 0, -589764, 14, 0, -589763, 14, 0, -589762, 14, 0, -589761, 14, 0, -589760, 0, 0, -589759, 14, 0, -589758, 15, 0, -589729, 12, 0, -589728, -1610612722, 0, -589727, -1610612722, 0, -589726, -1610612722, 0, -589725, -1610612722, 0, -589724, -1610612722, 0, -589723, -1610612722, 0, -589722, -1610612722, 0, -589721, -1610612722, 0, -589720, -1610612722, 0, -589719, -1610612722, 0, -589718, 14, 0, -589717, 14, 0, -589716, 14, 0, -589715, 14, 0, -589714, 14, 0, -589713, 14, 0, -589712, 14, 0, -589711, -1610612722, 0, -589710, -1610612722, 0, -589709, -1610612722, 0, -589708, 12, 0, -524257, 8, 0, -524256, 8, 0, -524255, 8, 0, -524254, 8, 0, -524253, 8, 0, -524252, 1610612750, 0, -524251, 14, 0, -524250, 1610612749, 0, -524232, 7, 0, -524231, 11, 0, -524230, 14, 0, -524229, 14, 0, -524228, 14, 0, -524227, 14, 0, -524226, 14, 0, -524225, 14, 0, -524224, 14, 0, -524223, 14, 0, -524222, 15, 0, -524193, 12, 0, -524192, 14, 0, -524191, 14, 0, -524190, 14, 0, -524189, 14, 0, -524188, 14, 0, -524187, 14, 0, -524186, 14, 0, -524185, 14, 0, -524184, 14, 0, -524183, 14, 0, -524182, 14, 0, -524181, 14, 0, -524180, 14, 0, -524179, 14, 0, -524178, 14, 0, -524177, 14, 0, -524176, 14, 0, -524175, 14, 0, -524174, -1610612722, 0, -524173, -1610612722, 0, -524172, 12, 0, -458724, 8, 0, -458723, 8, 0, -458722, 8, 0, -458721, -1073741814, 0, -458720, -1610612722, 0, -458719, -1073741810, 0, -458718, 14, 0, -458717, 14, 0, -458716, 14, 0, -458715, 1610612750, 0, -458714, -1610612725, 0, -458713, 16, 0, -458712, 16, 0, -458711, 16, 0, -458710, 9, 0, -458697, 7, 0, -458696, 11, 0, -458695, 14, 0, -458694, 14, 0, -458693, 14, 0, -458692, 0, 0, -458691, 14, 0, -458690, 14, 0, -458689, 14, 0, -458688, 14, 0, -458687, 14, 0, -458686, 15, 0, -458657, 12, 0, -458656, 14, 0, -458655, 1, 0, -458654, 2, 0, -458653, 2, 0, -458652, 2, 0, -458651, 2, 0, -458650, 2, 0, -458649, 2, 0, -458648, 2, 0, -458647, 2, 0, -458646, 2, 0, -458645, 2, 0, -458644, 2, 0, -458643, 2, 0, -458642, 2, 0, -458641, 2, 0, -458640, 2, 0, -458639, 2, 0, -458638, 2, 0, -458637, 2, 0, -458636, 14, 0, -458635, 3, 0, -393188, 14, 0, -393187, -1610612722, 0, -393186, 14, 0, -393185, 14, 0, -393184, -1073741810, 0, -393183, 14, 0, -393182, 14, 0, -393181, 1610612750, 0, -393180, 14, 0, -393179, -1610612722, 0, -393178, -1610612722, 0, -393177, -1610612722, 0, -393176, -1610612722, 0, -393175, -1610612722, 0, -393174, 15, 0, -393162, 7, 0, -393161, 11, 0, -393160, 14, 0, -393159, 14, 0, -393158, 14, 0, -393157, 14, 0, -393156, 14, 0, -393155, 14, 0, -393154, 14, 0, -393153, 14, 0, -393152, 14, 0, -393151, 14, 0, -393150, 15, 0, -393121, 12, 0, -393120, 14, 0, -393119, -1610612722, 0, -393118, -1610612722, 0, -393117, -1610612722, 0, -393116, -1610612722, 0, -393115, -1610612722, 0, -393114, -1610612722, 0, -393113, -1610612722, 0, -393112, -1610612722, 0, -393111, -1610612722, 0, -393110, -1610612722, 0, -393109, -1610612722, 0, -393108, -1610612722, 0, -393107, -1610612722, 0, -393106, -1610612722, 0, -393105, -1610612722, 0, -393104, 14, 0, -393103, 14, 0, -393102, 14, 0, -393101, 14, 0, -393100, 12, 0, -327665, 0, 0, -327654, 1, 0, -327653, 2, 0, -327652, 2, 0, -327651, 2, 0, -327650, 2, 0, -327649, 2, 0, -327648, 2, 0, -327647, 3, 0, -327646, 14, 0, -327645, -1073741810, 0, -327644, -1610612722, 0, -327643, 14, 0, -327642, -1610612722, 0, -327641, -1610612722, 0, -327640, -1610612722, 0, -327639, -1610612722, 0, -327638, 15, 0, -327626, 13, 0, -327625, 14, 0, -327624, 14, 0, -327623, 14, 0, -327622, 14, 0, -327621, 14, 0, -327620, 14, 0, -327619, 14, 0, -327618, 14, 0, -327617, 14, 0, -327616, 14, 0, -327615, 14, 0, -327614, 15, 0, -327605, 8, 0, -327604, 8, 0, -327603, 8, 0, -327602, 8, 0, -327601, 8, 0, -327600, 8, 0, -327599, 8, 0, -327598, 8, 0, -327597, 8, 0, -327596, 8, 0, -327595, 8, 0, -327594, 8, 0, -327593, 9, 0, -327585, 12, 0, -327584, 14, 0, -327583, 14, 0, -327582, 14, 0, -327581, 14, 0, -327580, 14, 0, -327579, 14, 0, -327578, 14, 0, -327577, 14, 0, -327576, 14, 0, -327575, 14, 0, -327574, 14, 0, -327573, 14, 0, -327572, 14, 0, -327571, 14, 0, -327570, 14, 0, -327569, 14, 0, -327568, 14, 0, -327567, 14, 0, -327566, 14, 0, -327565, 14, 0, -327564, 12, 0, -262116, 1610612750, 0, -262115, 14, 0, -262114, -1610612722, 0, -262113, 14, 0, -262112, -1073741810, 0, -262111, 14, 0, -262110, 14, 0, -262109, -1073741810, 0, -262108, 0, 0, -262107, 14, 0, -262106, -1610612722, 0, -262105, -1610612722, 0, -262104, -1610612722, 0, -262103, -1610612722, 0, -262102, 15, 0, -262090, 13, 0, -262089, 14, 0, -262088, 14, 0, -262087, 14, 0, -262086, 0, 0, -262085, 14, 0, -262084, 14, 0, -262083, 14, 0, -262082, 14, 0, -262081, 14, 0, -262080, 14, 0, -262079, 14, 0, -262078, 15, 0, -262069, 14, 0, -262068, 14, 0, -262067, 14, 0, -262066, 14, 0, -262065, 14, 0, -262064, 14, 0, -262063, 14, 0, -262062, 14, 0, -262061, 14, 0, -262060, 14, 0, -262059, 14, 0, -262058, 14, 0, -262057, 15, 0, -262049, 12, 0, -262048, 14, 0, -262047, 14, 0, -262046, 14, 0, -262045, 14, 0, -262044, 14, 0, -262043, 14, 0, -262042, 14, 0, -262041, 14, 0, -262040, 14, 0, -262039, 14, 0, -262038, 14, 0, -262037, 14, 0, -262036, 14, 0, -262035, 14, 0, -262034, 14, 0, -262033, 14, 0, -262032, 14, 0, -262031, 14, 0, -262030, 14, 0, -262029, 14, 0, -262028, 12, 0, -196595, 8, 0, -196594, 8, 0, -196580, -1610612722, 0, -196579, 14, 0, -196578, 14, 0, -196577, 14, 0, -196576, -1073741810, 0, -196575, 14, 0, -196574, 14, 0, -196573, 14, 0, -196572, 14, 0, -196571, -1610612722, 0, -196570, -1610612722, 0, -196569, -1610612722, 0, -196568, -1610612722, 0, -196567, -1610612722, 0, -196566, 15, 0, -196554, 13, 0, -196553, 14, 0, -196552, 14, 0, -196551, 14, 0, -196550, 14, 0, -196549, 14, 0, -196548, 14, 0, -196547, 14, 0, -196546, 14, 0, -196545, 14, 0, -196544, 14, 0, -196543, 1, 0, -196542, 2, 0, -196541, 2, 0, -196540, 2, 0, -196539, 2, 0, -196538, 2, 0, -196537, 2, 0, -196536, 2, 0, -196535, 2, 0, -196534, 2, 0, -196533, 2, 0, -196532, 2, 0, -196531, 2, 0, -196530, 2, 0, -196529, 2, 0, -196528, 3, 0, -196527, 14, 0, -196526, 14, 0, -196525, 14, 0, -196524, 14, 0, -196523, 14, 0, -196522, 14, 0, -196521, 15, 0, -196513, 13, 0, -196512, 2, 0, -196511, 2, 0, -196510, 2, 0, -196509, 2, 0, -196508, 2, 0, -196507, 2, 0, -196506, 2, 0, -196505, 2, 0, -196504, 2, 0, -196503, 2, 0, -196502, 2, 0, -196501, 2, 0, -196500, 2, 0, -196499, 2, 0, -196498, 2, 0, -196497, 2, 0, -196496, 2, 0, -196495, 2, 0, -196494, 3, 0, -196493, 14, 0, -196492, 12, 0, -131059, 14, 0, -131058, 14, 0, -131044, 14, 0, -131043, 14, 0, -131042, 14, 0, -131041, -1610612722, 0, -131040, 14, 0, -131039, -1073741810, 0, -131038, 14, 0, -131037, -1610612722, 0, -131036, 14, 0, -131035, 14, 0, -131034, -1610612722, 0, -131033, -1610612722, 0, -131032, -1610612722, 0, -131031, -1610612722, 0, -131030, 15, 0, -131018, 13, 0, -131017, 14, 0, -131016, 14, 0, -131015, 14, 0, -131014, 14, 0, -131013, 14, 0, -131012, 14, 0, -131011, 14, 0, -131010, 14, 0, -131009, 14, 0, -131008, 14, 0, -131007, 14, 0, -131006, 15, 0, -130997, 14, 0, -130996, 14, 0, -130995, 14, 0, -130994, 14, 0, -130993, 14, 0, -130992, 14, 0, -130991, 14, 0, -130990, 14, 0, -130989, 14, 0, -130988, 14, 0, -130987, 14, 0, -130986, 14, 0, -130985, 15, 0, -130977, 12, 0, -130976, 14, 0, -130975, 14, 0, -130974, 14, 0, -130973, 14, 0, -130972, 14, 0, -130971, 14, 0, -130970, 14, 0, -130969, 14, 0, -130968, 14, 0, -130967, 14, 0, -130966, 14, 0, -130965, 14, 0, -130964, 14, 0, -130963, 14, 0, -130962, 14, 0, -130961, 14, 0, -130960, 14, 0, -130959, 14, 0, -130958, 14, 0, -130957, 14, 0, -130956, 12, 0, -65524, 7, 0, -65523, 8, 0, -65522, 8, 0, -65521, 9, 0, -65508, 14, 0, -65507, 1610612750, 0, -65506, 14, 0, -65505, 14, 0, -65504, -1610612722, 0, -65503, 14, 0, -65502, 14, 0, -65501, -1610612722, 0, -65500, -1610612722, 0, -65499, 14, 0, -65498, -1610612722, 0, -65497, -1610612722, 0, -65496, -1610612722, 0, -65495, -1610612722, 0, -65494, 15, 0, -65482, 13, 0, -65481, 14, 0, -65480, 14, 0, -65479, 14, 0, -65478, 14, 0, -65477, 14, 0, -65476, 14, 0, -65475, 14, 0, -65474, 14, 0, -65473, 14, 0, -65472, 14, 0, -65471, 14, 0, -65470, 15, 0, -65461, 14, 0, -65460, 14, 0, -65459, 14, 0, -65458, 14, 0, -65457, 14, 0, -65456, 14, 0, -65455, 14, 0, -65454, 14, 0, -65453, 14, 0, -65452, 14, 0, -65451, 14, 0, -65450, 14, 0, -65449, 15, 0, -65441, 12, 0, -65440, 14, 0, -65439, 14, 0, -65438, 14, 0, -65437, 14, 0, -65436, 14, 0, -65435, 14, 0, -65434, 14, 0, -65433, 14, 0, -65432, 14, 0, -65431, 14, 0, -65430, 14, 0, -65429, 14, 0, -65428, 14, 0, -65427, 14, 0, -65426, 14, 0, -65425, 14, 0, -65424, 14, 0, -65423, 14, 0, -65422, 14, 0, -65421, 14, 0, -65420, 13, 0, -65419, 3, 0, 5, 7, 0, 6, 16, 0, 7, 16, 0, 8, 16, 0, 9, 9, 0, 12, 13, 0, 13, 1610612750, 0, 14, 1610612750, 0, 15, 1610612749, 0, 28, 14, 0, 29, 1610612750, 0, 30, 14, 0, 31, 14, 0, 32, -1073741810, 0, 33, -1610612722, 0, 34, 14, 0, 35, 14, 0, 36, -1610612722, 0, 37, 14, 0, 38, -1610612722, 0, 39, -1610612722, 0, 40, -1610612722, 0, 41, -1610612722, 0, 42, 15, 0, 54, 13, 0, 55, 14, 0, 56, 14, 0, 57, 14, 0, 58, 14, 0, 59, 14, 0, 60, 14, 0, 61, 14, 0, 62, 14, 0, 63, 14, 0, 64, 14, 0, 65, 14, 0, 66, 15, 0, 75, 14, 0, 76, 14, 0, 77, 14, 0, 78, 14, 0, 79, 14, 0, 80, 14, 0, 81, 14, 0, 82, 14, 0, 83, 14, 0, 84, 14, 0, 85, 14, 0, 86, 14, 0, 87, 15, 0, 95, 12, 0, 96, 14, 0, 97, 14, 0, 98, 14, 0, 99, 14, 0, 100, 14, 0, 101, 14, 0, 102, 14, 0, 103, 14, 0, 104, 14, 0, 105, 14, 0, 106, 14, 0, 107, 14, 0, 108, 14, 0, 109, 14, 0, 110, 14, 0, 111, 14, 0, 112, 14, 0, 113, 14, 0, 114, 14, 0, 115, 14, 0, 116, 12, 0, 131069, 1, 0, 131070, 2, 0, 131071, 2, 0, 65536, 2, 0, 65537, 2, 0, 65538, 3, 0, 65541, 13, 0, 65542, 10, 0, 65543, 11, 0, 65544, 5, 0, 65545, 15, 0, 65548, 13, 0, 65549, 1610612750, 0, 65550, 1610612750, 0, 65551, 1610612749, 0, 65564, 14, 0, 65565, 14, 0, 65566, 1610612750, 0, 65567, 14, 0, 65568, 14, 0, 65569, 14, 0, 65570, -1073741810, 0, 65571, 14, 0, 65572, 14, 0, 65573, 14, 0, 65574, -1610612722, 0, 65575, -1610612722, 0, 65576, -1610612722, 0, 65577, -1610612722, 0, 65578, 15, 0, 65590, 13, 0, 65591, 14, 0, 65592, 14, 0, 65593, 14, 0, 65594, 14, 0, 65595, 14, 0, 65596, 14, 0, 65597, 14, 0, 65598, 14, 0, 65599, 14, 0, 65600, 14, 0, 65601, 14, 0, 65602, 15, 0, 65611, 14, 0, 65612, 14, 0, 65613, 14, 0, 65614, 14, 0, 65615, 14, 0, 65616, 14, 0, 65617, 14, 0, 65618, 14, 0, 65619, 14, 0, 65620, 14, 0, 65621, 14, 0, 65622, 14, 0, 65623, 15, 0, 65630, 1, 0, 65631, 1610612749, 0, 65632, 14, 0, 65633, 16, 0, 65634, 16, 0, 65635, 16, 0, 65636, 16, 0, 65637, 16, 0, 65638, 16, 0, 65639, 16, 0, 65640, 16, 0, 65641, 16, 0, 65642, 16, 0, 65643, 16, 0, 65644, 16, 0, 65645, 16, 0, 65646, 16, 0, 65647, 16, 0, 65648, 16, 0, 65649, 16, 0, 65650, 16, 0, 65651, 16, 0, 65652, -1073741814, 0, 131077, 13, 0, 131078, 11, 0, 131079, 14, 0, 131080, 14, 0, 131081, 15, 0, 131084, 13, 0, 131085, 1610612750, 0, 131086, 1610612750, 0, 131087, 1610612749, 0, 131100, 14, 0, 131101, 14, 0, 131102, 1610612750, 0, 131103, 14, 0, 131104, -1073741810, 0, 131105, 14, 0, 131106, 14, 0, 131107, 14, 0, 131108, 14, 0, 131109, 14, 0, 131110, -1610612722, 0, 131111, -1610612722, 0, 131112, -1610612722, 0, 131113, -1610612722, 0, 131114, 15, 0, 131126, 13, 0, 131127, 14, 0, 131128, 14, 0, 131129, 14, 0, 131130, 14, 0, 131131, 14, 0, 131132, 14, 0, 131133, 14, 0, 131134, 14, 0, 131135, 14, 0, 131136, 14, 0, 131137, 14, 0, 131138, 15, 0, 131147, 14, 0, 131148, 14, 0, 131149, 14, 0, 131150, 14, 0, 131151, 14, 0, 131152, 14, 0, 131153, 14, 0, 131154, 14, 0, 131155, 14, 0, 131156, 14, 0, 131157, 14, 0, 131158, 14, 0, 131159, 15, 0, 131167, 12, 0, 131168, 14, 0, 131169, 14, 0, 131170, 14, 0, 131171, 14, 0, 131172, 14, 0, 131173, 14, 0, 131174, 14, 0, 131175, 14, 0, 131176, 14, 0, 131177, 14, 0, 131178, 14, 0, 131179, 14, 0, 131180, 14, 0, 131181, 14, 0, 131182, 14, 0, 131183, 14, 0, 131184, 14, 0, 131185, 14, 0, 131186, 14, 0, 131187, 14, 0, 131188, 14, 0, 196613, 13, 0, 196614, 14, 0, 196615, 14, 0, 196616, 10, 0, 196617, 15, 0, 196620, 1610612751, 0, 196621, 1610612750, 0, 196622, 1610612750, 0, 196623, 1610612749, 0, 196636, 14, 0, 196637, -1073741810, 0, 196638, 14, 0, 196639, 14, 0, 196640, 14, 0, 196641, 14, 0, 196642, 14, 0, 196643, 14, 0, 196644, 14, 0, 196645, 14, 0, 196646, -1610612722, 0, 196647, -1610612722, 0, 196648, -1610612722, 0, 196649, -1610612722, 0, 196650, 15, 0, 196662, 13, 0, 196663, 14, 0, 196664, 14, 0, 196665, 14, 0, 196666, 14, 0, 196667, 14, 0, 196668, 14, 0, 196669, 14, 0, 196670, 14, 0, 196671, 14, 0, 196672, 14, 0, 196673, 14, 0, 196674, 15, 0, 196683, 14, 0, 196684, 14, 0, 196685, 14, 0, 196686, 14, 0, 196687, 14, 0, 196688, 14, 0, 196689, 14, 0, 196690, 14, 0, 196691, 14, 0, 196692, 14, 0, 196693, 14, 0, 196694, 14, 0, 196695, 15, 0, 196703, 12, 0, 196704, 14, 0, 196705, 14, 0, 196706, 14, 0, 196707, 14, 0, 196708, 14, 0, 196709, 14, 0, 196710, 14, 0, 196711, 14, 0, 196712, 14, 0, 196713, 14, 0, 196714, 14, 0, 196715, 14, 0, 196716, 14, 0, 196717, 14, 0, 196718, 14, 0, 196719, 14, 0, 196720, 14, 0, 196721, 14, 0, 196722, 14, 0, 196723, 14, 0, 196724, 14, 0, 262149, 13, 0, 262150, 14, 0, 262151, 14, 0, 262152, 14, 0, 262153, 15, 0, 262156, 1610612751, 0, 262157, 1610612750, 0, 262158, 1610612750, 0, 262159, 1610612749, 0, 262172, 14, 0, 262173, 14, 0, 262174, 14, 0, 262175, 14, 0, 262176, 14, 0, 262177, 14, 0, 262178, 14, 0, 262179, 14, 0, 262180, 14, 0, 262181, 14, 0, 262182, -1610612722, 0, 262183, -1610612722, 0, 262184, -1610612722, 0, 262185, -1610612722, 0, 262186, 15, 0, 262198, 13, 0, 262199, 14, 0, 262200, 14, 0, 262201, 14, 0, 262202, 14, 0, 262203, 14, 0, 262204, 14, 0, 262205, 14, 0, 262206, 14, 0, 262207, 14, 0, 262208, 14, 0, 262209, 14, 0, 262210, 15, 0, 262219, 14, 0, 262220, 14, 0, 262221, 14, 0, 262222, 14, 0, 262223, 14, 0, 262224, 14, 0, 262225, 14, 0, 262226, 14, 0, 262227, 14, 0, 262228, 14, 0, 262229, 14, 0, 262230, 14, 0, 262231, 15, 0, 262239, 12, 0, 262240, 14, 0, 262241, 14, 0, 262242, 14, 0, 262243, 14, 0, 262244, 14, 0, 262245, 14, 0, 262246, 14, 0, 262247, 14, 0, 262248, 14, 0, 262249, 14, 0, 262250, 14, 0, 262251, 14, 0, 262252, 14, 0, 262253, 14, 0, 262254, 14, 0, 262255, 14, 0, 262256, 14, 0, 262257, 14, 0, 262258, 14, 0, 262259, 14, 0, 262260, 14, 0, 327685, 13, 0, 327686, 4, 0, 327687, 14, 0, 327688, 14, 0, 327689, 15, 0, 327692, 13, 0, 327693, -1073741820, 0, 327694, -1073741810, 0, 327695, 1610612749, 0, 327708, 14, 0, 327709, 14, 0, 327710, 14, 0, 327711, 14, 0, 327712, 14, 0, 327713, 14, 0, 327714, 14, 0, 327715, 14, 0, 327716, 14, 0, 327717, 14, 0, 327718, 14, 0, 327719, 14, 0, 327720, 14, 0, 327721, 14, 0, 327722, 15, 0, 327734, 13, 0, 327735, 14, 0, 327736, 14, 0, 327737, 14, 0, 327738, 14, 0, 327739, 14, 0, 327740, 14, 0, 327741, 14, 0, 327742, 14, 0, 327743, 14, 0, 327744, 14, 0, 327745, 14, 0, 327746, 15, 0, 327775, 13, 0, 327776, 2, 0, 327777, 2, 0, 327778, 2, 0, 327779, 2, 0, 327780, 2, 0, 327781, 2, 0, 327782, 2, 0, 327783, 2, 0, 327784, 2, 0, 327785, 2, 0, 327786, 2, 0, 327787, 2, 0, 327788, 2, 0, 327789, 2, 0, 327790, 2, 0, 327791, 2, 0, 327792, 2, 0, 327793, 2, 0, 327794, 2, 0, 327795, 2, 0, 327796, 2, 0, 327797, 2, 0, 327798, 2, 0, 327799, 2, 0, 327800, 2, 0, 327801, 2, 0, 327802, 2, 0, 327803, 2, 0, 327804, 2, 0, 327805, 3, 0, 393221, 1610612745, 0, 393222, 1610612744, 0, 393223, 1610612744, 0, 393224, 1610612744, 0, 393225, 1610612743, 0, 393228, 13, 0, 393229, -1073741819, 0, 393230, -1073741813, 0, 393231, 1610612749, 0, 393244, 14, 0, 393245, 14, 0, 393246, 14, 0, 393247, 14, 0, 393248, 14, 0, 393249, 14, 0, 393250, 14, 0, 393251, 14, 0, 393252, 14, 0, 393253, 14, 0, 393254, 14, 0, 393255, 14, 0, 393256, 14, 0, 393257, 14, 0, 393258, 15, 0, 393270, 13, 0, 393271, 14, 0, 393272, 14, 0, 393273, 14, 0, 393274, 14, 0, 393275, 14, 0, 393276, 14, 0, 393277, 14, 0, 393278, 14, 0, 393279, 14, 0, 393280, 14, 0, 393281, 14, 0, 393282, 15, 0, 393311, 12, 0, 393312, 14, 0, 393313, 14, 0, 393314, 14, 0, 393315, 14, 0, 393316, 14, 0, 393317, 14, 0, 393318, 14, 0, 393319, 14, 0, 393320, 14, 0, 393321, 14, 0, 393322, 14, 0, 393323, 14, 0, 393324, 14, 0, 393325, 14, 0, 393326, 14, 0, 393327, 14, 0, 393328, 14, 0, 393329, 14, 0, 393330, 14, 0, 393331, 14, 0, 393332, 15, 0, 458764, 13, 0, 458765, -1073741820, 0, 458766, -1073741814, 0, 458767, 1610612749, 0, 458847, 12, 0, 458848, 14, 0, 458849, 14, 0, 458850, 14, 0, 458851, 14, 0, 458852, 14, 0, 458853, 14, 0, 458854, 14, 0, 458855, 14, 0, 458856, 14, 0, 458857, 14, 0, 458858, 14, 0, 458859, 14, 0, 458860, 14, 0, 458861, 14, 0, 458862, 14, 0, 458863, 14, 0, 458864, 14, 0, 458865, 14, 0, 458866, 14, 0, 458867, 14, 0, 458868, 15, 0, 524383, 12, 0, 524384, 14, 0, 524385, 14, 0, 524386, 14, 0, 524387, -1073741810, 0, 524388, -1073741810, 0, 524389, -1073741810, 0, 524390, -1073741810, 0, 524391, -1073741810, 0, 524392, -1073741810, 0, 524393, -1073741810, 0, 524394, -1073741810, 0, 524395, -1073741810, 0, 524396, -1073741810, 0, 524397, -1073741810, 0, 524398, -1073741810, 0, 524399, 14, 0, 524400, 14, 0, 524401, 14, 0, 524402, 14, 0, 524403, 14, 0, 524404, 15, 0, 589919, 12, 0, 589920, 14, 0, 589921, 14, 0, 589922, 14, 0, 589923, -1073741818, 0, 589924, -1073741812, 0, 589925, -1073741812, 0, 589926, -1073741812, 0, 589927, -1073741812, 0, 589928, -1073741812, 0, 589929, -1073741812, 0, 589930, -1073741812, 0, 589931, -1073741812, 0, 589932, -1073741812, 0, 589933, -1073741812, 0, 589934, -1610612730, 0, 589935, 14, 0, 589936, 14, 0, 589937, 14, 0, 589938, 14, 0, 589939, 14, 0, 589940, 15, 0, 655455, 12, 0, 655456, 14, 0, 655457, 14, 0, 655458, 14, 0, 655459, 14, 0, 655460, 14, 0, 655461, 14, 0, 655462, 14, 0, 655463, 14, 0, 655464, 14, 0, 655465, 14, 0, 655466, 14, 0, 655467, 14, 0, 655468, 14, 0, 655469, 14, 0, 655470, 14, 0, 655471, 14, 0, 655472, 14, 0, 655473, 14, 0, 655474, 14, 0, 655475, 14, 0, 655476, 15, 0, 720991, 12, 0, 720992, 14, 0, 720993, 14, 0, 720994, 14, 0, 720995, 14, 0, 720996, 14, 0, 720997, 14, 0, 720998, 14, 0, 720999, 14, 0, 721000, 14, 0, 721001, 14, 0, 721002, 14, 0, 721003, 14, 0, 721004, 14, 0, 721005, 14, 0, 721006, 14, 0, 721007, 14, 0, 721008, 14, 0, 721009, 14, 0, 721010, 14, 0, 721011, 14, 0, 721012, 15, 0, 786527, 12, 0, 786528, 14, 0, 786529, 14, 0, 786530, 14, 0, 786531, 14, 0, 786532, 14, 0, 786533, 14, 0, 786534, 14, 0, 786535, 14, 0, 786536, 14, 0, 786537, 14, 0, 786538, 14, 0, 786539, 14, 0, 786540, 14, 0, 786541, 14, 0, 786542, 14, 0, 786543, 14, 0, 786544, 14, 0, 786545, 14, 0, 786546, 14, 0, 786547, 14, 0, 786548, 15, 0 )
+
+[node name="Platforms" type="Node2D" parent="."]
+position = Vector2( 758, -68 )
+
+[node name="PlatHorizontal" parent="Platforms" instance=ExtResource( 11 )]
+position = Vector2( 1017, -331 )
+
+[node name="PlatHorizontal2" parent="Platforms" instance=ExtResource( 11 )]
+position = Vector2( 4938, -1172 )
+
+[node name="PlatVertical" parent="Platforms" instance=ExtResource( 12 )]
+position = Vector2( 1082, -356 )
+
+[node name="PlatVertical2" parent="Platforms" instance=ExtResource( 12 )]
+position = Vector2( 3946, -1412 )
+
+[node name="PlatVertical3" parent="Platforms" instance=ExtResource( 12 )]
+position = Vector2( 10880, -1036 )
+
+[connection signal="area_entered" from="Player/PlayerArea" to="Player" method="_on_PlayerArea_area_entered"]
